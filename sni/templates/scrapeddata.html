@@ -1,0 +1,77 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/sni.css">
+{% endblock %}
+
+{% block head_title %}SCRAPPER{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body_base %}
+    <section class="jumbotron">
+        <div class="container">
+            {% include "_messages.html" %}
+            {% if not user.is_authenticated %}
+            {% url "account_login" as login_url %}
+            {% url "account_signup" as signup_url %}
+
+            <div class="container homesni">
+                <h2 class="text-center">{% blocktrans %}SCRAPPER{% endblocktrans %}</h2>
+                <p class="text-center">
+                    {% blocktrans %}
+                    Final year project.
+                    {% endblocktrans %}
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 loginhome" style="padding-bottom: 30%;">
+                    <p>
+                        {% blocktrans %}
+                            Already have account <a href="{{ login_url }}" class="btn btn-default">Log In</a>
+                        {% endblocktrans %}
+                    </p> <br>
+                    <p>
+                        {% blocktrans %}
+                            New here <a href="{{ signup_url }}" class="btn" style="background-color: #b8e098; color: white; font-weight: bold;">Sign Up</a>
+                        {% endblocktrans %}
+                    </p>
+                </div>
+            </div>
+            {% else %}
+
+            <!-- content to be shown when use logged in -->
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 search">
+                    <h3>freshely scrapped</h3>
+                </div>     
+              
+            </div>
+
+            <div class="row">
+                {% for name,price,image,rating in itemlist %}
+                    <div class="col-md-4">
+                        <h4>{{ name }} </h4>
+                        <h4> Rupees {{ price }} </h4>
+                        <img src="{{ image }}">                        
+                        <h4>{{ rating }} </h4>
+                    </div>     
+                {% endfor %}
+            </div>          
+            
+
+            <!-- show already scrapped items 
+
+            <div class="row">
+              <div class="col-md-6 col-md-offset-2">
+                 <h4>Recent searched items.....</h4>
+              </div>
+            </div>
+
+            -->
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
